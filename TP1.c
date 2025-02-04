@@ -9,7 +9,6 @@
 
 int main(int argc, char **argv)
 {
-	//generate_csv(4,100);
 	int rval =0;	
 	//File instance name
 	//-F option
@@ -41,16 +40,47 @@ int main(int argc, char **argv)
 		}
 	}
 
-	dataSet data;
+	// dataSet data;
 
-	//Open the instance file
-	FILE* fin = fopen(instance_file,"r");
-	read_TP1_instance(fin,&data);
-	fclose(fin);
+	// //Open the instance file
+	// FILE* fin = fopen(instance_file,"r");
+	// read_TP1_instance(fin,&data);
+	// fclose(fin);
 
-	//execute your solution methods on the instance you just read
-	KP_greedy(&data);
-	KP_LP(&data);
+	// //execute your solution methods on the instance you just read
+	// printf("Solution LP Greedy:\n");
+	// KP_greedy(&data);
+	// printf("Solution LP with relaxation:\n");
+	// KP_LP(&data);
+
+	// KP_Greedy Complexity
+	// N fixed
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	// B fixed
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	complexity_test(10, 10, KP_greedy);
+	// KP_Linear Complexity
+	// N fixed
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	// B fixed
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+	complexity_test(10, 10, KP_LP);
+
+
 
 
 	return rval;

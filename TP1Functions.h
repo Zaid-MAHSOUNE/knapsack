@@ -36,5 +36,6 @@ int KP_greedy(dataSet* dsptr);
 int KP_LP(dataSet* dsptr);
 void generate_csv(int n, int b);
 int compareItems(const void *a, const void *b);
+void complexity_test();
 
 

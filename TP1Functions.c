@@ -67,11 +67,56 @@ int compareItems(const void *a, const void *b) {
 
 int KP_greedy(dataSet* dsptr)
 {
-	int rval = 0;
+    int n = dsptr->n;
+    int b = dsptr->b;
+    int *c = dsptr->c;
+    int *a = dsptr->a;
 
+    // Initialize the solution vector x, set to all 0s (nothing taken initially)
+    int *x = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        x[i] = 0;
+    }
 
-	return rval;
+    // Create an array of items with their index and value-to-weight ratio
+    Item *items = (Item *)malloc(n * sizeof(Item));
+    for (int i = 0; i < n; i++) {
+        items[i].index = i;
+        items[i].ratio = (float)c[i] / a[i];
+    }
+
+    // Sort the items based on the value-to-weight ratio in descending order
+    qsort(items, n, sizeof(Item), compareItems);
+
+    // Process each item in sorted order
+    for (int j = 0; j < n; j++) {
+        int idx = items[j].index;  // Get the original index of the item
+
+        // If there is no remaining capacity, stop
+        if (b == 0) {
+            break;
+        }
+
+        // If the remaining capacity is greater than or equal to the weight of the item
+        if (b >= a[idx]) {
+            // Take the whole item
+            x[idx] = 1;
+            b -= a[idx];  // Reduce the remaining capacity
+        }
+    }
+
+    // Print the solution (optional, for debugging or visualization)
+    for (int i = 0; i < n; i++) {
+        printf("Item %d: %d\n", i + 1, x[i]);
+    }
+
+    // Clean up memory
+    free(x);
+    free(items);
+
+    return 0;
 }
+
 
 int KP_LP(dataSet* dsptr)
 {
@@ -127,3 +172,21 @@ int KP_LP(dataSet* dsptr)
     return 0;
 }
 
+typedef void (*KPFunction)(dataSet* data);
+
+void complexity_test(int n, int b, KPFunction kpAlgorithm)
+{
+    clock_t start, end;
+    double cpu_time_used;
+	dataSet data;
+
+    generate_csv(n,b); 
+    FILE* fin = fopen("instance1.csv","r");
+	read_TP1_instance(fin,&data);
+	fclose(fin);
+    start = clock();
+    kpAlgorithm(&data);
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken: %f seconds\n", cpu_time_used);
+}
